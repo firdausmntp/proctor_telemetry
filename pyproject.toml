@@ -1,0 +1,49 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "proctor-telemetry"
+version = "0.1.0"
+description = "Lightweight multimodal behavioral telemetry fusion & academic integrity verification engine"
+readme = "README.md"
+requires-python = ">=3.9"
+license = { text = "MIT" }
+authors = [
+    { name = "Firdaus Satrio", email = "firdaus@example.com" },
+    { name = "LinguaPulse Research Team" }
+]
+keywords = [
+    "proctoring",
+    "telemetry",
+    "keystroke-dynamics",
+    "academic-integrity",
+    "online-exam",
+    "machine-learning",
+    "multimodal-fusion",
+    "spatial-entropy"
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Education",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Scientific/Engineering :: Information Analysis",
+    "Topic :: Security",
+]
+
+[project.urls]
+Homepage = "https://github.com/firdaus/proctor-telemetry"
+Repository = "https://github.com/firdaus/proctor-telemetry.git"
+"Bug Tracker" = "https://github.com/firdaus/proctor-telemetry/issues"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["proctor_telemetry*"]
