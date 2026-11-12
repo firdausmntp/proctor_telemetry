@@ -10,7 +10,7 @@ readme = "README.md"
 requires-python = ">=3.9"
 license = { text = "MIT" }
 authors = [
-    { name = "Firdaus Satrio", email = "firdaus@example.com" },
+    { name = "Firdaus Satrio", email = "firdausmntp@gmail.com" },
     { name = "LinguaPulse Research Team" }
 ]
 keywords = [
@@ -40,9 +40,9 @@ classifiers = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/firdaus/proctor-telemetry"
-Repository = "https://github.com/firdaus/proctor-telemetry.git"
-"Bug Tracker" = "https://github.com/firdaus/proctor-telemetry/issues"
+Homepage = "https://github.com/firdausmntp/proctor_telemetry"
+Repository = "https://github.com/firdausmntp/proctor_telemetry.git"
+"Bug Tracker" = "https://github.com/firdausmntp/proctor_telemetry/issues"
 
 [tool.setuptools.packages.find]
 where = ["."]

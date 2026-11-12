@@ -1,14 +1,19 @@
-# ProctorTelemetry
+<p align="center">
+  <img src="assets/logo.svg" alt="ProctorTelemetry Logo" width="136" height="136">
+</p>
+
+<h1 align="center">ProctorTelemetry</h1>
 
 <p align="center">
   <strong>Lightweight Multimodal Behavioral Telemetry Fusion & Academic Integrity Engine</strong>
 </p>
 
 <p align="center">
-  <a href="https://pypi.org/project/proctor-telemetry/"><img src="https://img.shields.io/badge/pypi-v0.1.0-blue.svg" alt="PyPI version"></a>
+  <a href="https://pypi.org/project/proctor-telemetry/"><img src="https://img.shields.io/pypi/v/proctor-telemetry.svg?color=blue" alt="PyPI version"></a>
+  <a href="https://github.com/firdausmntp/proctor_telemetry"><img src="https://img.shields.io/github/stars/firdausmntp/proctor_telemetry?style=flat&color=yellow" alt="GitHub Stars"></a>
   <a href="https://python.org"><img src="https://img.shields.io/badge/python-3.9+-3776AB.svg?logo=python&logoColor=white" alt="Python 3.9+"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-green.svg" alt="License: MIT"></a>
-  <a href="tests"><img src="https://img.shields.io/badge/tests-passing-success.svg" alt="Tests"></a>
+  <a href="https://github.com/firdausmntp/proctor_telemetry/actions"><img src="https://img.shields.io/badge/tests-passing-success.svg" alt="Tests"></a>
   <img src="https://img.shields.io/badge/dependencies-zero-brightgreen.svg" alt="Zero Dependencies">
   <img src="https://img.shields.io/badge/latency-%3C1ms-orange.svg" alt="Sub-millisecond Latency">
 </p>
@@ -17,7 +22,7 @@
 
 ## Overview
 
-**ProctorTelemetry** is an open-source, privacy-first, zero-dependency Python library designed for academic integrity analysis in online examinations. 
+**ProctorTelemetry** is an open-source, privacy-first, zero-dependency Python library designed for academic integrity analysis in online examinations and computer-based tests (CBT).
 
 Unlike traditional invasive proctoring software that records webcams or full desktop screens, ProctorTelemetry leverages **non-invasive multimodal behavioral telemetry**:
 1. **Keystroke Dynamics ($x_k$)**: Temporal distributions of key hold duration, flight times, typing rhythm, and editing frequency.
@@ -108,13 +113,13 @@ pip install proctor-telemetry
 
 ### From GitHub Repository
 ```bash
-pip install git+https://github.com/firdaus/proctor-telemetry.git
+pip install git+https://github.com/firdausmntp/proctor_telemetry.git
 ```
 
 ### Local Development / Editable Mode
 ```bash
-git clone https://github.com/firdaus/proctor-telemetry.git
-cd proctor-telemetry
+git clone https://github.com/firdausmntp/proctor_telemetry.git
+cd proctor_telemetry
 pip install -e .
 ```
 
@@ -190,7 +195,7 @@ Subset [full_fusion_xgboost ]: Risk Score = 0.1824
 
 ## Web Framework Integration
 
-### FastAPI Example
+### FastAPI Microservice Example
 ```python
 from fastapi import FastAPI
 from pydantic import BaseModel
@@ -242,7 +247,7 @@ python -m unittest discover -s tests
 
 ## Academic Citation
 
-If you use this library or its multimodal telemetry methodology in academic papers or thesis research, please cite:
+If you use this library or its multimodal telemetry methodology in academic papers, undergraduate theses, or research publications, please cite:
 
 ```bibtex
 @software{satrio2026proctortelemetry,
@@ -251,7 +256,7 @@ If you use this library or its multimodal telemetry methodology in academic pape
   year = {2026},
   publisher = {GitHub},
   journal = {GitHub repository},
-  howpublished = {\url{https://github.com/firdaus/proctor-telemetry}}
+  howpublished = {\url{https://github.com/firdausmntp/proctor_telemetry}}
 }
 ```
 
