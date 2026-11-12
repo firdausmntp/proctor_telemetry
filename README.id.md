@@ -5,16 +5,16 @@
 <h1 align="center">ProctorTelemetry</h1>
 
 <p align="center">
-  <strong>Engine Ringan Fusi Telemetri Perilaku Multimodal & Verifikasi Integritas Akademik</strong>
+  <strong>Mesin Fusi Multimodal Telemetri Perilaku & Perilaku Pengerjaan Ujian Daring</strong>
 </p>
 
 <p align="center">
   <a href="https://pypi.org/project/proctor-telemetry/"><img src="https://img.shields.io/pypi/v/proctor-telemetry.svg?color=blue" alt="Versi PyPI"></a>
-  <a href="https://github.com/firdausmntp/proctor_telemetry"><img src="https://img.shields.io/github/stars/firdausmntp/proctor_telemetry?style=flat&color=yellow" alt="GitHub Stars"></a>
+  <a href="https://github.com/firdausmntp/proctor_telemetry"><img src="https://img.shields.io/github/stars/firdausmntp/proctor_telemetry?style=flat&color=yellow" alt="Bintang GitHub"></a>
   <a href="https://python.org"><img src="https://img.shields.io/badge/python-3.9+-3776AB.svg?logo=python&logoColor=white" alt="Python 3.9+"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-green.svg" alt="Lisensi: MIT"></a>
   <a href="https://github.com/firdausmntp/proctor_telemetry/actions"><img src="https://img.shields.io/badge/tests-passing-success.svg" alt="Pengujian"></a>
-  <img src="https://img.shields.io/badge/dependencies-zero-brightgreen.svg" alt="Zero Dependencies">
+  <img src="https://img.shields.io/badge/dependencies-zero-brightgreen.svg" alt="Tanpa Dependensi">
   <img src="https://img.shields.io/badge/latency-%3C1ms-orange.svg" alt="Latensi Sub-milidetik">
 </p>
 
@@ -26,70 +26,79 @@
 
 ## Ringkasan
 
-**ProctorTelemetry** adalah pustaka Python sumber terbuka (*open-source*), tanpa dependensi eksternal (*zero-dependency*), dan menjaga privasi pengguna (*privacy-preserving*). Dirancang khusus untuk analisis integritas akademik pada ujian daring dan *Computer-Based Testing* (CBT).
+**ProctorTelemetry** adalah pustaka Python sumber terbuka (open-source), berorientasi privasi, dan tanpa dependensi eksternal (zero-dependency) yang dirancang untuk analisis integritas akademik pada ujian daring dan Computer-Based Testing (CBT).
 
-Berbeda dari sistem pengawasan konvensional yang invasif (merekam webcam, mikrofon, atau seluruh layar peserta), ProctorTelemetry memanfaatkan **fusi telemetri perilaku non-invasif**:
-1. **Dinamika Ketikan ($x_k$)**: Distribusi waktu durasi tekan tombol (*dwell*), waktu jeda antar tombol (*flight*), ritme ketikan, serta frekuensi koreksi tulisan.
-2. **Status Jendela & Fokus ($x_f$)**: Transisi pindah tab (*blur/focus*), durasi jendela tidak aktif (*hidden*), dan interaksi salin-tempel (*clipboard paste*).
-3. **Entropi Spasial Kursor ($x_h$)**: Entropi informasi Shannon dan kepadatan interaksi kursor pada zona fungsional antarmuka ujian.
+Berbeda dari pengawasan konvensional yang invasif (merekam kamera web, mikrofon, atau seluruh layar desktop), ProctorTelemetry menerapkan **fusi perilaku multimodal** dengan menggabungkan dua pilar utama interaksi peserta:
+1. **Telemetri Browser ($x_f$)**: Episode kehilangan fokus jendela (blur/unfocus) dan durasi halaman tersembunyi (tab hidden duration).
+2. **Perilaku Pengerjaan ($x_w$)**: Distribusi waktu menjawab per butir soal, pola navigasi antarsoal, dan revisi/perubahan jawaban setelah jendela kembali aktif.
+3. **Dinamika Ketikan ($x_k$)**: Durasi penekanan tombol (*dwell time*), selang antar-tombol (*flight time*), ritme pengetikan, dan frekuensi koreksi tombol kembali (*backspace*).
+4. **Entropi Spasial Pointer ($x_h$)**: Entropi Shannon dari sebaran koordinat interaksi mouse/touch pada zona antarmuka penting.
 
-Pustaka ini menyediakan fungsi ekstraksi fitur siap pakai, **model representasi ansambel XGBoost**, **skor anomali sekuensial 1D-CNN**, baseline aturan heuristik, serta analisis **uji ablasi 7 kombinasi modalitas fitur**.
+Dengan memadukan telemetri browser dan perilaku pengerjaan, mesin dapat mendeteksi pola kecurangan secara presisi (contohnya: peserta meninggalkan tab ujian untuk mencari kunci jawaban lalu kembali dan mengubah jawaban yang telah terisi, atau submit kilat bertubi-tubi setelah tab disembunyikan).
 
 ---
 
 ## Keunggulan Utama
 
-- ⚡ **Zero External Dependencies**: Murni menggunakan pustaka bawaan standar Python (`math`, `time`, `typing`). Tidak memerlukan PyTorch, TensorFlow, maupun *compiler* C/C++.
-- 🚀 **Latensi Sub-Milidetik**: Ekstraksi fitur dan evaluasi seluruh model tuntas dalam **< 1,0 ms** per sesi, sangat siap melayani puluhan ribu peserta bersamaan secara *real-time*.
-- 🛡️ **Menjaga Privasi**: Tidak pernah merekam isi karakter teks yang diketik maupun rekaman video. Hanya memproses diferensial waktu statistik dan sebaran koordinat interaksi ternormalisasi.
-- 🔬 **Siap untuk Riset & Skripsi**: Dilengkapi *engine* uji ablasi 7 permutasi untuk mengukur kontribusi masing-masing modalitas sensor perilaku secara transparan.
+- **Tanpa Dependensi Eksternal**: Dibangun murni menggunakan pustaka standar Python (`math`, `time`, `typing`). Tidak memerlukan NumPy, SciPy, PyTorch, maupun compiler C/C++.
+- **Latensi Sub-milidetik**: Ekstraksi fitur dan seluruh evaluasi inferensi multi-model selesai dalam waktu **< 1,0 ms** per sesi ujian, siap melayani puluhan ribu peserta bersamaan.
+- **Deteksi Anomali Lintas-Modalitas**: Menghubungkan korelasi temporal antara durasi halaman tersembunyi dengan revisi jawaban atau tebakan cepat.
+- **Menjaga Privasi Peserta**: Tidak pernah merekam isi teks ketikan, isi clipboard, video webcam, maupun audio. Hanya selisih waktu statistik dan sebaran koordinat ternormalisasi yang diproses.
+- **Rangkaian Uji Ablasi Lengkap**: Menyajikan skor risiko terisolasi per modalitas untuk kebutuhan evaluasi riset skripsi dan transparansi bagi pengawas.
 
 ---
 
-## Alur Arsitektur Sistem
+## Alur Arsitektur
 
 ```mermaid
 flowchart TD
-    subgraph Client ["Koleksi Telemetri Sisi Klien"]
-        A1["Waktu Ketikan (Dwell, Flight, Interkey)"]
-        A2["Peristiwa Jendela (Blur, Hidden, Paste)"]
-        A3["Sebaran Kursor (Zonal Hits)"]
+    subgraph Client ["Pengumpulan Sensor di Sisi Klien"]
+        A1["Telemetri Browser (Kehilangan Fokus, Durasi Tersembunyi)"]
+        A2["Perilaku Pengerjaan (Waktu Menjawab, Navigasi, Revisi Jawaban)"]
+        A3["Dinamika Ketikan (Dwell, Flight, Ritme)"]
+        A4["Sebaran Pointer (Titik Koordinat Zona)"]
     end
 
     subgraph Extraction ["Mesin Ekstraksi Fitur"]
         B["extract_fusion_features"]
-        C1["xk: Metrik Ketikan (7 fitur)"]
-        C2["xf: Fokus dan Jendela (5 fitur)"]
-        C3["xh: Entropi Spasial (6 fitur)"]
+        C1["xf: Telemetri Browser (Fokus & Tab Hidden)"]
+        C2["xw: Perilaku Pengerjaan (Waktu, Navigasi, Revisi)"]
+        C3["xk: Dinamika Ketikan (Dwell, Flight, Interkey)"]
+        C4["xh: Entropi Pointer (Entropi Shannon H)"]
     end
 
-    subgraph Models ["Suite Inferensi Multimodal"]
-        D1["Representasi Ansambel XGBoost"]
-        D2["Model Jitter Sekuensial 1D-CNN"]
-        D3["Aturan Baseline Deterministik"]
-        D4["Suite Uji Ablasi 7 Permutasi"]
+    subgraph Models ["Rangkaian Inferensi Multimodal"]
+        D1["Representasi Ensemble XGBoost"]
+        D2["Model Anomali Sekuensial 1D-CNN"]
+        D3["Pemeriksa Aturan Heuristik Deterministik"]
+        D4["Suite Pengujian Ablasi 9 Kombinasi"]
     end
 
-    subgraph Output ["Vektor Output Standar"]
-        E["Skor Risiko Integritas Ternormalisasi (0.0 s.d. 1.0)<br/>Konteks Transparan untuk Inspeksi Pengawas"]
+    subgraph Output ["Vektor Luaran Standar"]
+        E["Skor Risiko Integritas Ternormalisasi (0.0 hingga 1.0)<br/>Konteks Inspeksi Transparan untuk Pengawas"]
     end
 
     A1 --> B
     A2 --> B
     A3 --> B
+    A4 --> B
     B --> C1
     B --> C2
     B --> C3
+    B --> C4
     C1 --> D1
     C2 --> D1
     C3 --> D1
+    C4 --> D1
     C1 --> D2
     C2 --> D2
+    C3 --> D2
     C1 --> D3
     C2 --> D3
     C1 --> D4
     C2 --> D4
     C3 --> D4
+    C4 --> D4
     D1 --> E
     D2 --> E
     D3 --> E
@@ -98,45 +107,50 @@ flowchart TD
 
 ---
 
-## Tabel 18 Fitur Telemetri Fusi
+## Vektor Fitur Multimodal (23 Dimensi)
 
-| Modalitas | Kunci Fitur | Notasi Matematis | Deskripsi Fungsional |
+| Modalitas | Kunci Fitur | Simbol Matematis | Keterangan |
 | :--- | :--- | :---: | :--- |
-| **Ketikan ($x_k$)** | `dwell_median_ms` | $\text{Med}(D)$ | Median durasi penekanan tombol ketik (ms) |
-| | `dwell_iqr_ms` | $\text{IQR}(D)$ | Rentang interkuartil (*IQR*) durasi penekanan tombol |
-| | `flight_median_ms` | $\text{Med}(F)$ | Waktu jeda transisi antara melepas tombol $i$ dan menekan tombol $i+1$ |
-| | `flight_iqr_ms` | $\text{IQR}(F)$ | Variasi/IQR interval jeda antar-tombol |
-| | `interkey_median_ms` | $\text{Med}(I)$ | Median interval pengetikan antar karakter |
-| | `interkey_iqr_ms` | $\text{IQR}(I)$ | Konsistensi ritme pengetikan sepanjang sekuens |
-| | `long_pause_ratio` | $R_{\text{pause}}$ | Proporsi jeda berpikir/berhenti mengetik > 2000 ms |
-| | `backspace_ratio` | $R_{\text{bksp}}$ | Frekuensi perbaikan/hapusan karakter dibanding total ketikan |
-| | `burst_input_ratio` | $R_{\text{burst}}$ | Rasio pengetikan abnormal/tempelan mendadak (*burst insertion*) |
-| | `typing_cpm` | $\text{CPM}$ | Kecepatan pengetikan karakter per menit aktif |
-| **Fokus ($x_f$)** | `focus_loss_episodes` | $N_{\text{blur}}$ | Jumlah peristiwa peralihan tab / jendela peramban |
-| | `hidden_duration_ms` | $T_{\text{hidden}}$ | Durasi kumulatif peserta berada di luar peramban ujian (ms) |
-| | `hidden_duration_ratio` | $R_{\text{hidden}}$ | Rasio durasi jendela tidak aktif terhadap total waktu sesi |
-| | `paste_count` | $N_{\text{paste}}$ | Total frekuensi peristiwa penempelan teks (*paste*) |
-| **Kursor ($x_h$)** | `zone_passage_prop` | $q_{\text{passage}}$ | Proporsi interaksi kursor di atas zona teks wacana/stimulus |
-| | `zone_answer_prop` | $q_{\text{answer}}$ | Proporsi interaksi kursor di atas zona pilihan jawaban |
-| | `zone_nav_prop` | $q_{\text{nav}}$ | Proporsi interaksi kursor di atas zona tombol navigasi |
-| | `spatial_entropy_H` | $H(X)$ | Entropi Shannon sebaran zona: $-\sum q_i \log_2(q_i)$ |
-| | `total_pointer_events`| $N_{\text{pointer}}$ | Total sampel koordinat interaksi penunjuk |
+| **Telemetri Browser ($x_f$)** | `focus_loss_episodes` | $N_{\text{blur}}$ | Total episode perpindahan fokus / keluar dari jendela ujian |
+| | `hidden_duration_ms` | $T_{\text{hidden}}$ | Akumulasi durasi halaman ujian disembunyikan (ms) |
+| | `hidden_duration_ratio` | $R_{\text{hidden}}$ | Rasio durasi tersembunyi terhadap total waktu sesi |
+| | `paste_count` | $N_{\text{paste}}$ | Total frekuensi aksi penempelan teks (*paste*) |
+| **Perilaku Pengerjaan ($x_w$)** | `answer_change_count` | $N_{\text{rev}}$ | Frekuensi pergantian/perubahan opsi jawaban yang sudah dipilih |
+| | `answer_change_ratio` | $R_{\text{rev}}$ | Rasio soal yang jawabannya sempat direvisi |
+| | `nav_switch_count` | $N_{\text{nav}}$ | Total aksi perpindahan/lompatan navigasi antar-soal |
+| | `mean_item_time_sec` | $T_{\text{item}}$ | Rata-rata alokasi waktu pengerjaan per butir soal (detik) |
+| | `rapid_answer_count` | $N_{\text{rapid}}$ | Jumlah butir soal yang dijawab kilat di bawah 2,5 detik |
+| | `rapid_answer_ratio` | $R_{\text{rapid}}$ | Proporsi jawaban kilat terhadap total soal yang dikerjakan |
+| **Dinamika Ketikan ($x_k$)** | `dwell_median_ms` | $\text{Med}(D)$ | Median durasi penekanan tombol ketik (ms) |
+| | `dwell_iqr_ms` | $\text{IQR}(D)$ | Rentang antarkuartil (IQR) dari *dwell time* |
+| | `flight_median_ms` | $\text{Med}(F)$ | Median jeda waktu antara pelepasan tombol $i$ dan penekanan tombol $i+1$ |
+| | `flight_iqr_ms` | $\text{IQR}(F)$ | Variasi konsistensi interval *flight time* |
+| | `interkey_median_ms` | $\text{Med}(I)$ | Median selang waktu antar-penekanan tombol (*interkey interval*) |
+| | `long_pause_ratio` | $R_{\text{pause}}$ | Proporsi jeda panjang ketikan yang melampaui 1500 ms |
+| | `backspace_ratio` | $R_{\text{bksp}}$ | Rasio penekanan tombol koreksi *backspace* terhadap total ketikan |
+| | `burst_input_ratio` | $R_{\text{burst}}$ | Proporsi masukan karakter massal mendadak |
+| | `typing_cpm` | $\text{CPM}$ | Kecepatan karakter per menit aktif |
+| **Entropi Pointer ($x_h$)** | `zone_passage_prop` | $q_{\text{passage}}$ | Proporsi interaksi kursor pada area stimulus/bacaan |
+| | `zone_answer_prop` | $q_{\text{answer}}$ | Proporsi interaksi kursor pada area opsi jawaban |
+| | `zone_nav_prop` | $q_{\text{nav}}$ | Proporsi interaksi kursor pada panel navigasi |
+| | `spatial_entropy_H` | $H(X)$ | Nilai entropi Shannon: $-\sum q_i \log_2(q_i)$ |
+| | `total_pointer_events`| $N_{\text{pointer}}$ | Total volume sampel koordinat pointer yang tercatat |
 
 ---
 
-## Panduan Instalasi
+## Pemasangan
 
-### Dari PyPI (Rilis Resmi)
+### Melalui PyPI
 ```bash
 pip install proctor-telemetry
 ```
 
-### Dari Repositori GitHub
+### Melalui Repositori GitHub
 ```bash
 pip install git+https://github.com/firdausmntp/proctor_telemetry.git
 ```
 
-### Instalasi Lokal / Mode Editable
+### Mode Pengembangan Lokal
 ```bash
 git clone https://github.com/firdausmntp/proctor_telemetry.git
 cd proctor_telemetry
@@ -145,23 +159,34 @@ pip install -e .
 
 ---
 
-## Contoh Penggunaan Cepat (*Quickstart*)
+## Contoh Penggunaan Cepat
 
 ```python
 from proctor_telemetry import extract_features_and_predict
 
-# 1. Payload telemetri yang direkam oleh antarmuka frontend ujian
-session_telemetry = {
+# 1. Payload telemetri & perilaku dari antarmuka ujian
+payload_sesi = {
+    # Telemetri Browser
+    "focus_loss_episodes": 2,
+    "hidden_duration_ms": 12500.0,
+    "paste_count": 0,
+    "duration_sec": 300.0,
+
+    # Perilaku Pengerjaan Soal
+    "answer_change_count": 3,
+    "nav_switch_count": 14,
+    "item_response_times": [14.0, 16.5, 1.8, 2.1, 15.2],
+    "total_questions_attempted": 20,
+
+    # Dinamika Ketikan
     "dwell_times": [85.0, 92.0, 78.0, 110.0, 95.0, 88.0],
     "flight_times": [140.0, 120.0, 190.0, 130.0, 150.0],
     "interkey_times": [225.0, 212.0, 268.0, 240.0, 238.0],
     "total_keydowns": 240,
     "backspace_count": 14,
-    "paste_count": 0,
     "bulk_insert_count": 0,
-    "focus_loss_episodes": 1,
-    "hidden_duration_ms": 1200.0,
-    "duration_sec": 300.0,
+
+    # Sebaran Pointer
     "zone_counts": {
         "passage": 45,
         "answer": 80,
@@ -169,85 +194,46 @@ session_telemetry = {
     }
 }
 
-# 2. Jalankan ekstraksi fitur dan evaluasi multi-model
-features, ablation, xgb_score, cnn_score, rule_flag, latency_ms = extract_features_and_predict(session_telemetry)
+# 2. Jalankan inferensi ekstraksi fitur dan evaluasi model
+features, ablation, xgb_score, cnn_score, rule_flag, latency_ms = extract_features_and_predict(payload_sesi)
 
 # 3. Tampilkan hasil evaluasi
-print(f"Skor Fusi XGBoost       : {xgb_score:.4f} (Rentang: 0.0 - 1.0)")
-print(f"Skor Sekuensial 1D-CNN  : {cnn_score:.4f}")
-print(f"Indikator Rule (Biner)  : {'TERPICU' if rule_flag else 'AMAN'}")
-print(f"Entropi Spasial H       : {features['spatial_entropy_H']} bits")
-print(f"Latensi Inferensi       : {latency_ms:.2f} ms")
+print(f"Skor Risiko XGBoost Multimodal : {xgb_score:.4f} (Rentang: 0.0 - 1.0)")
+print(f"Skor Risiko Sekuensial 1D-CNN  : {cnn_score:.4f}")
+print(f"Peringatan Aturan Heuristik   : {'TERDETEKSI ANOMALI' if rule_flag else 'BERSIH'}")
+print(f"Fusi Telemetri + Perilaku      : {ablation['telemetry_work_fusion']:.4f}")
+print(f"Latensi Inferensi Komputasi    : {latency_ms:.2f} ms")
 ```
 
 ---
 
-## Uji Ablasi Modalitas Fitur
+## Evaluasi Rangkaian Uji Ablasi
 
-Pustaka secara otomatis menghasilkan skor ablasi untuk menganalisis kontribusi masing-masing kelompok sensor perilaku:
+Pustaka secara otomatis menghitung 9 variasi skor ablasi untuk menganalisis kontribusi terisolasi maupun gabungan modalitas:
 
 ```python
-for modality, score in ablation.items():
-    print(f"Kombinasi [{modality:<20}]: Skor Risiko = {score:.4f}")
+for modalitas, skor in ablation.items():
+    print(f"Sub-kelompok [{modalitas:<22}]: Skor Risiko = {skor:.4f}")
 ```
 
-Contoh Luaran:
+Luaran contoh:
 ```text
-Kombinasi [keystroke_only      ]: Skor Risiko = 0.1611
-Kombinasi [focus_only          ]: Skor Risiko = 0.2142
-Kombinasi [heatmap_only        ]: Skor Risiko = 0.2315
-Kombinasi [keystroke_focus     ]: Skor Risiko = 0.2458
-Kombinasi [keystroke_heatmap   ]: Skor Risiko = 0.2589
-Kombinasi [focus_heatmap       ]: Skor Risiko = 0.2641
-Kombinasi [full_fusion_xgboost ]: Skor Risiko = 0.1824
-```
-
----
-
-## Integrasi Layanan Mikro (FastAPI)
-
-```python
-from fastapi import FastAPI
-from pydantic import BaseModel
-from typing import List, Dict, Any
-from proctor_telemetry import extract_features_and_predict
-
-app = FastAPI(title="Layanan Verifikasi Telemetri")
-
-class TelemetryPayload(BaseModel):
-    dwell_times: List[float] = []
-    flight_times: List[float] = []
-    interkey_times: List[float] = []
-    total_keydowns: int = 0
-    backspace_count: int = 0
-    paste_count: int = 0
-    bulk_insert_count: int = 0
-    focus_loss_episodes: int = 0
-    hidden_duration_ms: float = 0.0
-    duration_sec: float = 60.0
-    zone_counts: Dict[str, int] = {}
-
-@app.post("/verify")
-def verify_telemetry(payload: TelemetryPayload):
-    features, ablation, xgb_score, cnn_score, rule_flag, latency = extract_features_and_predict(payload.dict())
-    return {
-        "status": "success",
-        "scores": {
-            "xgboost": xgb_score,
-            "cnn1d": cnn_score,
-            "rule_flag": bool(rule_flag)
-        },
-        "ablation": ablation,
-        "features": features,
-        "latency_ms": latency
-    }
+Sub-kelompok [keystroke_only        ]: Skor Risiko = 0.1611
+Sub-kelompok [focus_only            ]: Skor Risiko = 0.2142
+Sub-kelompok [heatmap_only          ]: Skor Risiko = 0.2315
+Sub-kelompok [work_behavior_only    ]: Skor Risiko = 0.2840
+Sub-kelompok [telemetry_work_fusion ]: Skor Risiko = 0.4215
+Sub-kelompok [keystroke_focus       ]: Skor Risiko = 0.2458
+Sub-kelompok [keystroke_heatmap     ]: Skor Risiko = 0.2589
+Sub-kelompok [focus_heatmap         ]: Skor Risiko = 0.2641
+Sub-kelompok [full_fusion_xgboost   ]: Skor Risiko = 0.3892
 ```
 
 ---
 
 ## Pengujian Unit
 
-Jalankan rangkaian pengujian unit bawaan:
+Jalankan rangkaian pengujian bawaan:
 
 ```bash
 python -m unittest discover -s tests
@@ -257,12 +243,12 @@ python -m unittest discover -s tests
 
 ## Sitasi Akademik
 
-Jika Anda memanfaatkan pustaka ini atau metode fusi telemetri perilakunya dalam penulisan skripsi, tesis, atau artikel jurnal ilmiah, silakan merujuk sitasi berikut:
+Apabila Anda memanfaatkan pustaka ini atau metode fusi telemetri dan perilaku pengerjaan dalam penelitian, skripsi, tesis, atau publikasi ilmiah, mohon cantumkan sitasi berikut:
 
 ```bibtex
 @software{utomo2026proctortelemetry,
   author = {Utomo, Firdaus Satrio and LinguaPulse Research Team},
-  title = {ProctorTelemetry: Lightweight Multimodal Behavioral Telemetry Fusion & Integrity Verification Engine},
+  title = {ProctorTelemetry: Lightweight Multimodal Behavioral Telemetry & Test-Taking Work Behavior Fusion Engine},
   year = {2026},
   publisher = {GitHub},
   journal = {GitHub repository},
@@ -274,4 +260,4 @@ Jika Anda memanfaatkan pustaka ini atau metode fusi telemetri perilakunya dalam 
 
 ## Lisensi
 
-Proyek ini dilisensikan di bawah [Lisensi MIT](LICENSE) — bebas digunakan untuk keperluan akademik, komersial, maupun penelitian mandiri.
+Proyek ini berada di bawah naungan [Lisensi MIT](LICENSE) — bebas dimanfaatkan untuk kebutuhan akademik, riset, maupun komersial.

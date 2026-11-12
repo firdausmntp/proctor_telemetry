@@ -32,6 +32,10 @@ class TestProctorTelemetry(unittest.TestCase):
                 "answer": 80,
                 "navigation": 15,
             },
+            "answer_change_count": 1,
+            "nav_switch_count": 8,
+            "item_response_times": [12.5, 14.0, 8.2, 19.1, 15.3],
+            "total_questions_attempted": 20,
         }
 
     def test_math_utilities(self):
@@ -53,22 +57,68 @@ class TestProctorTelemetry(unittest.TestCase):
         self.assertIn("dwell_median_ms", features)
         self.assertIn("spatial_entropy_H", features)
         self.assertIn("burst_input_ratio", features)
+        self.assertIn("answer_change_count", features)
+        self.assertIn("nav_switch_count", features)
+        self.assertIn("mean_item_time_sec", features)
+        self.assertIn("rapid_answer_count", features)
         self.assertEqual(features["paste_count"], 0)
+        self.assertEqual(features["answer_change_count"], 1)
+        self.assertEqual(features["nav_switch_count"], 8)
 
     def test_rule_evaluation(self):
-        clean_features = {"paste_count": 0, "focus_loss_episodes": 0, "hidden_duration_ratio": 0.02}
+        clean_features = {
+            "paste_count": 0,
+            "focus_loss_episodes": 0,
+            "hidden_duration_ratio": 0.02,
+            "answer_change_count": 0,
+            "rapid_answer_count": 0,
+        }
         self.assertEqual(evaluate_rules(clean_features), 0)
 
-        flagged_paste = {"paste_count": 1, "focus_loss_episodes": 0, "hidden_duration_ratio": 0.0}
+        flagged_paste = {
+            "paste_count": 1,
+            "focus_loss_episodes": 0,
+            "hidden_duration_ratio": 0.0,
+            "answer_change_count": 0,
+            "rapid_answer_count": 0,
+        }
         self.assertEqual(evaluate_rules(flagged_paste), 1)
 
-        flagged_focus = {"paste_count": 0, "focus_loss_episodes": 4, "hidden_duration_ratio": 0.0}
+        flagged_focus = {
+            "paste_count": 0,
+            "focus_loss_episodes": 4,
+            "hidden_duration_ratio": 0.0,
+            "answer_change_count": 0,
+            "rapid_answer_count": 0,
+        }
         self.assertEqual(evaluate_rules(flagged_focus), 1)
+
+        # Cross-modal fusion rule: focus loss accompanied by answer revisions
+        flagged_cross = {
+            "paste_count": 0,
+            "focus_loss_episodes": 1,
+            "hidden_duration_ratio": 0.05,
+            "answer_change_count": 2,
+            "rapid_answer_count": 0,
+        }
+        self.assertEqual(evaluate_rules(flagged_cross), 1)
+
+        # Cross-modal fusion rule: hidden duration followed by rapid answers
+        flagged_rapid = {
+            "paste_count": 0,
+            "focus_loss_episodes": 0,
+            "hidden_duration_ratio": 0.10,
+            "answer_change_count": 0,
+            "rapid_answer_count": 4,
+        }
+        self.assertEqual(evaluate_rules(flagged_rapid), 1)
 
     def test_model_inference_pipeline(self):
         features, ablation, xgb_score, cnn_score, rule_flag, latency = extract_features_and_predict(self.sample_payload)
         self.assertIsInstance(features, dict)
-        self.assertEqual(len(ablation), 7)
+        self.assertEqual(len(ablation), 9)
+        self.assertIn("work_behavior_only", ablation)
+        self.assertIn("telemetry_work_fusion", ablation)
         self.assertGreaterEqual(xgb_score, 0.0)
         self.assertLessEqual(xgb_score, 1.0)
         self.assertGreaterEqual(cnn_score, 0.0)
@@ -79,4 +129,3 @@ class TestProctorTelemetry(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
-

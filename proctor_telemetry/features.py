@@ -1,4 +1,4 @@
-"""Feature extraction for keystroke dynamics, browser focus, and pointer entropy."""
+"""Feature extraction for keystroke dynamics, browser focus, pointer entropy, and test-taking behavior."""
 import math
 from typing import Dict, Any, Tuple, List
 
@@ -47,6 +47,7 @@ def calculate_entropy(n1: int, n2: int, n3: int) -> Tuple[float, float, float, f
 
 
 def extract_fusion_features(payload: Dict[str, Any]) -> Tuple[Dict[str, Any], List[float], List[float], int]:
+    # 1. Keystroke Dynamics
     dwells = [float(x) for x in payload.get("dwell_times", []) if 0 <= float(x) <= 5000]
     flights = [float(x) for x in payload.get("flight_times", []) if -500 <= float(x) <= 15000]
     interkeys = [float(x) for x in payload.get("interkey_times", []) if 0 <= float(x) <= 15000]
@@ -68,16 +69,34 @@ def extract_fusion_features(payload: Dict[str, Any]) -> Tuple[Dict[str, Any], Li
     burst_input_ratio = round((paste_count + bulk_insert_count) / total_keys, 4)
     typing_cpm = round((total_keys / duration_sec) * 60.0, 2)
 
+    # 2. Browser Focus & Page Visibility
     focus_episodes = int(payload.get("focus_loss_episodes", 0))
     hidden_ms = float(payload.get("hidden_duration_ms", 0.0))
     total_ms = duration_sec * 1000.0
     hidden_ratio = round(min(1.0, hidden_ms / max(1.0, total_ms)), 4)
 
+    # 3. Pointer Spatial Entropy
     zone_counts = payload.get("zone_counts", {"passage": 0, "answer": 0, "navigation": 0})
     n1 = int(zone_counts.get("passage", 0))
     n2 = int(zone_counts.get("answer", 0))
     n3 = int(zone_counts.get("navigation", 0))
     q1, q2, q3, entropy, total_pointer = calculate_entropy(n1, n2, n3)
+
+    # 4. Test-Taking Work Behavior (Waktu Menjawab, Navigasi Soal, Perubahan Jawaban)
+    answer_changes = int(payload.get("answer_change_count", 0))
+    nav_switches = int(payload.get("nav_switch_count", 0))
+    item_times = [float(t) for t in payload.get("item_response_times", []) if float(t) >= 0]
+    total_attempted = max(1, int(payload.get("total_questions_attempted", len(item_times) or len(payload.get("answers", {})) or 20)))
+
+    if item_times:
+        mean_item_time = round(sum(item_times) / len(item_times), 2)
+        rapid_answers = sum(1 for t in item_times if t < 2.5)
+    else:
+        mean_item_time = float(payload.get("mean_item_time_sec", round(duration_sec / total_attempted, 2)))
+        rapid_answers = int(payload.get("rapid_answer_count", 0))
+
+    rapid_ratio = round(rapid_answers / total_attempted, 4)
+    change_ratio = round(answer_changes / total_attempted, 4)
 
     features = {
         "dwell_median_ms": dwell_med,
@@ -98,6 +117,12 @@ def extract_fusion_features(payload: Dict[str, Any]) -> Tuple[Dict[str, Any], Li
         "zone_nav_prop": q3,
         "spatial_entropy_H": entropy,
         "total_pointer_events": total_pointer,
+        # Multimodal Work Behavior Features
+        "answer_change_count": answer_changes,
+        "answer_change_ratio": change_ratio,
+        "nav_switch_count": nav_switches,
+        "mean_item_time_sec": mean_item_time,
+        "rapid_answer_count": rapid_answers,
+        "rapid_answer_ratio": rapid_ratio,
     }
     return features, flights, interkeys, total_keys
-

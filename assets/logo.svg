@@ -1,65 +1,63 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256" role="img" aria-label="ProctorTelemetry Logo">
   <defs>
-    <linearGradient id="shieldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#1e293b"/>
-      <stop offset="100%" stop-color="#0f172a"/>
-    </linearGradient>
-    <linearGradient id="accentGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#38bdf8"/>
-      <stop offset="50%" stop-color="#2563eb"/>
-      <stop offset="100%" stop-color="#7c3aed"/>
-    </linearGradient>
-    <linearGradient id="pulseGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" stop-color="#38bdf8"/>
-      <stop offset="45%" stop-color="#38bdf8"/>
-      <stop offset="70%" stop-color="#818cf8"/>
-      <stop offset="100%" stop-color="#c084fc"/>
+    <!-- Premium Deep Oxford Slate Background -->
+    <linearGradient id="ptBg" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#0F172A"/>
+      <stop offset="100%" stop-color="#0B1120"/>
     </linearGradient>
   </defs>
 
-  <!-- Background Shield Container -->
-  <path d="M128 22 C184 22 216 42 216 112 C216 178 156 218 128 234 C100 218 40 178 40 112 C40 42 72 22 128 22 Z" 
-        fill="url(#shieldGrad)" 
-        stroke="url(#accentGrad)" 
-        stroke-width="3.5" 
+  <!-- Solid Architectural Squircle Base -->
+  <rect width="256" height="256" rx="52" fill="url(#ptBg)"/>
+
+  <!-- Outer Architectural Shield Geometry -->
+  <path d="M 128 36
+           C 168 36, 198 48, 204 88
+           C 204 148, 160 196, 128 220
+           C 96 196, 52 148, 52 88
+           C 58 48, 88 36, 128 36 Z"
+        fill="none"
+        stroke="#1E293B"
+        stroke-width="5"
         stroke-linejoin="round"/>
 
-  <!-- Subtly Inset Geometric Shield Grid -->
-  <path d="M128 42 C170 42 196 58 196 114 C196 166 148 198 128 212 C108 198 60 166 60 114 C60 58 86 42 128 42 Z" 
-        fill="none" 
-        stroke="#334155" 
-        stroke-width="1.2" 
-        stroke-dasharray="4 4" 
-        opacity="0.6"/>
-
-  <!-- Radar/Spatial Entropy Concentric Arcs -->
-  <circle cx="128" cy="116" r="54" fill="none" stroke="#1e3a8a" stroke-width="1.5" opacity="0.4"/>
-  <circle cx="128" cy="116" r="34" fill="none" stroke="#2563eb" stroke-width="1.2" opacity="0.3"/>
-
-  <!-- Neon Glow Under-layer (pure vector compatible with GitHub Camo) -->
-  <path d="M68 128 L94 128 L104 100 L116 156 L128 80 L140 142 L150 114 L162 128 L188 128" 
-        fill="none" 
-        stroke="#38bdf8" 
-        stroke-width="10" 
-        stroke-opacity="0.25"
-        stroke-linecap="round" 
+  <!-- Inner Structural Inset -->
+  <path d="M 128 52
+           C 158 52, 182 62, 186 94
+           C 186 140, 152 178, 128 198
+           C 104 178, 70 140, 70 94
+           C 74 62, 98 52, 128 52 Z"
+        fill="#111C33"
+        stroke="#2563EB"
+        stroke-width="2.5"
         stroke-linejoin="round"/>
 
-  <!-- Telemetry Fusion Wave / Keystroke & Focus Rhythm Line -->
-  <path d="M68 128 L94 128 L104 100 L116 156 L128 80 L140 142 L150 114 L162 128 L188 128" 
-        fill="none" 
-        stroke="url(#pulseGrad)" 
-        stroke-width="4.5" 
-        stroke-linecap="round" 
+  <!-- Multimodal Sensor Caliper (4 Anchors: Keystroke, Focus, Pointer, Work Behavior) -->
+  <!-- Top Anchor (Browser Focus) -->
+  <line x1="128" y1="64" x2="128" y2="82" stroke="#60A5FA" stroke-width="3" stroke-linecap="round"/>
+  <!-- Bottom Anchor (Work Behavior) -->
+  <line x1="128" y1="168" x2="128" y2="186" stroke="#60A5FA" stroke-width="3" stroke-linecap="round"/>
+  <!-- Left Anchor (Keystroke Dynamics) -->
+  <line x1="84" y1="125" x2="102" y2="125" stroke="#60A5FA" stroke-width="3" stroke-linecap="round"/>
+  <!-- Right Anchor (Pointer Spatial Entropy) -->
+  <line x1="154" y1="125" x2="172" y2="125" stroke="#60A5FA" stroke-width="3" stroke-linecap="round"/>
+
+  <!-- Central Precision Telemetry Diamond & Waveform Core -->
+  <polygon points="128,88 160,125 128,162 96,125"
+           fill="#1E293B"
+           stroke="#3B82F6"
+           stroke-width="2.5"
+           stroke-linejoin="round"/>
+
+  <!-- Precision Measurement Grid Cross -->
+  <circle cx="128" cy="125" r="16" fill="#1D4ED8"/>
+  <circle cx="128" cy="125" r="7" fill="#FFFFFF"/>
+
+  <!-- Academic Integrity Verification Tick -->
+  <path d="M 112 125 L 123 136 L 146 113"
+        fill="none"
+        stroke="#FFFFFF"
+        stroke-width="3.5"
+        stroke-linecap="round"
         stroke-linejoin="round"/>
-
-  <!-- Spatial Nodes (Keystroke, Focus, Pointer Nodes) -->
-  <circle cx="104" cy="100" r="4.5" fill="#38bdf8"/>
-  <circle cx="116" cy="156" r="4.5" fill="#38bdf8"/>
-  <circle cx="128" cy="80" r="6" fill="#ffffff" stroke="#2563eb" stroke-width="2.5"/>
-  <circle cx="140" cy="142" r="4.5" fill="#818cf8"/>
-  <circle cx="150" cy="114" r="4.5" fill="#c084fc"/>
-
-  <!-- Focus / Integrity Eye Pupil Center -->
-  <circle cx="128" cy="116" r="3.5" fill="#38bdf8"/>
 </svg>

@@ -4,8 +4,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "proctor-telemetry"
-version = "0.1.0"
-description = "Lightweight multimodal behavioral telemetry fusion & academic integrity verification engine"
+version = "0.2.0"
+description = "Lightweight multimodal fusion engine combining browser telemetry (focus loss & visibility) and test-taking work behavior (item response time, navigation, answer revisions)"
 readme = "README.md"
 requires-python = ">=3.9"
 license = { text = "MIT" }
