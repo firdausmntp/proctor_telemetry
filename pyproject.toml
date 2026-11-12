@@ -10,7 +10,7 @@ readme = "README.md"
 requires-python = ">=3.9"
 license = { text = "MIT" }
 authors = [
-    { name = "Firdaus Satrio", email = "firdausmntp@gmail.com" },
+    { name = "Firdaus Satrio Utomo", email = "firdausmntp@gmail.com" },
     { name = "LinguaPulse Research Team" }
 ]
 keywords = [

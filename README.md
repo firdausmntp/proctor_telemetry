@@ -18,13 +18,17 @@
   <img src="https://img.shields.io/badge/latency-%3C1ms-orange.svg" alt="Sub-millisecond Latency">
 </p>
 
+<p align="center">
+  <b>English</b> | <a href="README.id.md">Bahasa Indonesia</a>
+</p>
+
 ---
 
 ## Overview
 
-**ProctorTelemetry** is an open-source, privacy-first, zero-dependency Python library designed for academic integrity analysis in online examinations and computer-based tests (CBT).
+**ProctorTelemetry** is an open-source, privacy-first, zero-dependency Python library designed for academic integrity analysis in online examinations and computer-based testing (CBT).
 
-Unlike traditional invasive proctoring software that records webcams or full desktop screens, ProctorTelemetry leverages **non-invasive multimodal behavioral telemetry**:
+Unlike traditional invasive proctoring software that records webcams, microphones, or full desktop screens, ProctorTelemetry leverages **non-invasive multimodal behavioral telemetry**:
 1. **Keystroke Dynamics ($x_k$)**: Temporal distributions of key hold duration, flight times, typing rhythm, and editing frequency.
 2. **Window & Focus States ($x_f$)**: Blur/focus transitions, hidden tab durations, and clipboard copy-paste interactions.
 3. **Pointer Spatial Entropy ($x_h$)**: Shannon entropy and interaction densities across critical UI functional zones.
@@ -46,34 +50,50 @@ It provides out-of-the-box feature extraction, an **XGBoost ensemble representat
 
 ```mermaid
 flowchart TD
-    subgraph Client ["Client-side Telemetry Collectors"]
+    subgraph Client ["Client-Side Telemetry Collection"]
         A1["Keystroke Timing (Dwell, Flight, Interkey)"]
         A2["Window Events (Blur, Hidden, Paste)"]
         A3["Pointer Heatmap (Zonal Hits)"]
     end
 
     subgraph Extraction ["Feature Extraction Engine"]
-        B["extract_fusion_features()"]
+        B["extract_fusion_features"]
         C1["xk: Keystroke Metrics (7 features)"]
-        C2["xf: Focus & Window (5 features)"]
-        C3["xh: Spatial Entropy H (6 features)"]
+        C2["xf: Focus and Window (5 features)"]
+        C3["xh: Spatial Entropy (6 features)"]
     end
 
     subgraph Models ["Multimodal Inference Suite"]
-        D1["evaluate_xgboost()\nNonlinear Ensemble Fusion"]
-        D2["evaluate_cnn1d()\nTemporal Sequential Jitter"]
-        D3["evaluate_rules()\nDeterministic Baseline"]
-        D4["7-Way Ablation Analysis\nKeystroke / Focus / Pointer Subsets"]
+        D1["XGBoost Ensemble Representation"]
+        D2["1D-CNN Sequential Jitter Model"]
+        D3["Deterministic Baseline Rules"]
+        D4["7-Way Ablation Permutation Suite"]
     end
 
     subgraph Output ["Standardized Output Vector"]
-        E["Normalized Integrity Risk Scores [0.0 - 1.0]\nTransparent Inspection Context for Proctors"]
+        E["Normalized Integrity Risk Scores (0.0 to 1.0)<br/>Transparent Inspection Context for Proctors"]
     end
 
-    A1 & A2 & A3 --> B
-    B --> C1 & C2 & C3
-    C1 & C2 & C3 --> D1 & D2 & D3 & D4
-    D1 & D2 & D3 & D4 --> E
+    A1 --> B
+    A2 --> B
+    A3 --> B
+    B --> C1
+    B --> C2
+    B --> C3
+    C1 --> D1
+    C2 --> D1
+    C3 --> D1
+    C1 --> D2
+    C2 --> D2
+    C1 --> D3
+    C2 --> D3
+    C1 --> D4
+    C2 --> D4
+    C3 --> D4
+    D1 --> E
+    D2 --> E
+    D3 --> E
+    D4 --> E
 ```
 
 ---
@@ -160,15 +180,6 @@ print(f"Spatial Entropy H        : {features['spatial_entropy_H']} bits")
 print(f"Inference Latency        : {latency_ms:.2f} ms")
 ```
 
-### Output:
-```text
-XGBoost Multimodal Score : 0.1824 (Range: 0.0 - 1.0)
-1D-CNN Sequential Score  : 0.2241
-Rule Flag (Deterministic): CLEAN
-Spatial Entropy H        : 1.3412 bits
-Inference Latency        : 0.42 ms
-```
-
 ---
 
 ## Advanced Usage: Feature Ablation Analysis
@@ -250,8 +261,8 @@ python -m unittest discover -s tests
 If you use this library or its multimodal telemetry methodology in academic papers, undergraduate theses, or research publications, please cite:
 
 ```bibtex
-@software{satrio2026proctortelemetry,
-  author = {Satrio, Firdaus and LinguaPulse Research Team},
+@software{utomo2026proctortelemetry,
+  author = {Utomo, Firdaus Satrio and LinguaPulse Research Team},
   title = {ProctorTelemetry: Lightweight Multimodal Behavioral Telemetry Fusion & Integrity Verification Engine},
   year = {2026},
   publisher = {GitHub},
