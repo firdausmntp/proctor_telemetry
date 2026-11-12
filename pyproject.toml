@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "proctor-telemetry"
-version = "0.2.0"
+version = "0.2.1"
 description = "Lightweight multimodal fusion engine combining browser telemetry (focus loss & visibility) and test-taking work behavior (item response time, navigation, answer revisions)"
 readme = "README.md"
 requires-python = ">=3.9"

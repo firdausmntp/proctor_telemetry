@@ -11,7 +11,7 @@ from .rules import evaluate_rules
 from .models import evaluate_xgboost, evaluate_cnn1d
 from .engine import extract_features_and_predict
 
-__version__ = "0.2.0"
+__version__ = "0.2.1"
 __all__ = [
     "percentile",
     "iqr",
